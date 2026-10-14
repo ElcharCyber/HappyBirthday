@@ -117,13 +117,22 @@
     <div class="main-container">
 
       <!-- Top Ocean Navigation Bar -->
-      <header class="ocean-header">
-        <div class="header-seal">🌊 Under The Sea Wishes 🌊</div>
+      <header class="ocean-header" id="ocean-header">
+        <div class="header-seal-wrap">
+          <div class="header-seal">
+            <span class="seal-wave">🌊</span>
+            <span class="seal-text">Under The Sea Wishes</span>
+            <span class="seal-sparkle">✨</span>
+          </div>
+        </div>
 
         <!-- SAKURA - ROSSA MUSIC PLAYER (MAIN PAGE ONLY) -->
         <div class="header-music-widget">
-          <button id="music-toggle-btn" class="music-toggle-btn" type="button" aria-label="Putar Lagu Sakura - Rossa">
-            <span class="music-icon" id="music-icon">🌸</span>
+          <button id="music-toggle-btn" class="music-toggle-btn" type="button"
+            aria-label="Putar atau Jeda Lagu Sakura - Rossa" title="Klik untuk memutar atau menjeda lagu">
+            <span class="music-icon-wrap">
+              <span class="music-icon" id="music-icon">🌸</span>
+            </span>
             <span class="music-label">
               <span class="music-song">Sakura — Rossa</span>
               <span class="music-status" id="music-status">Putar Lagu ▶</span>
@@ -134,7 +143,12 @@
           </button>
         </div>
 
-        <div class="header-name-tag" id="header-name-tag">Untuk: <strong>Ihza Salma Maulida</strong></div>
+        <div class="header-name-wrap">
+          <div class="header-name-tag" id="header-name-tag">
+            <span class="name-icon">💌</span>
+            <span class="name-text">Untuk: <strong id="header-name-text">Ihza Salma Maulida</strong></span>
+          </div>
+        </div>
       </header>
 
       <!-- ==============================================
@@ -224,15 +238,17 @@
           <!-- Quiz Main Container -->
           <div class="quiz-card glass-card" id="quiz-card">
 
-            <!-- Quiz Progress & Header -->
+            <!-- Quiz Progress & Header (Skor Cinta Dihilangkan) -->
             <div class="quiz-header">
-              <div class="quiz-counter" id="quiz-counter">
-                <span class="counter-label">Soal</span>
+              <div class="quiz-counter-pill" id="quiz-counter">
+                <span class="counter-icon">🐚</span>
+                <span class="counter-label">Pertanyaan</span>
                 <span class="counter-number" id="quiz-step">1</span>
                 <span class="counter-total">/ 4</span>
               </div>
-              <div class="quiz-points" id="quiz-points-display">
-                Skor Cinta: <span id="quiz-score">100%</span> 💖
+              <div class="quiz-badge-tag">
+                <span class="tag-sparkle">✨</span>
+                <span class="tag-text">Pilih Jawaban Terbaikmu</span>
               </div>
             </div>
 

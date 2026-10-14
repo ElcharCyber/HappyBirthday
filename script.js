@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     milestoneText: 'Spesial Hari Kelahiran',
     musicPlaying: false,
     quizIndex: 0,
-    quizScore: 0,
     isTransitioning: false,
   };
 
@@ -20,100 +19,100 @@ document.addEventListener('DOMContentLoaded', () => {
   // (User can easily swap these URLs or add local image paths)
   const GALLERY_PHOTOS = [
     {
-      url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
-      title: 'Pantai Impian Kita',
-      caption: 'Langkah kaki di pasir hangat, deburan ombak yang menenangkan jiwa.',
-      badge: 'Memori #1 🏖️'
+      url: 'pict/1.jpeg',
+      title: 'Senyuman Berdua Paling Hangat',
+      caption: 'Di sampingmu selalu ada rasa nyaman dan ketenangan yang tak tergantikan.',
+      badge: 'Memori #1 💙'
     },
     {
-      url: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=800&q=80',
-      title: 'Gradasi Biru Samudera',
-      caption: 'Sebening hatimu yang selalu memberi kesejukan bagi siapa pun di dekatmu.',
-      badge: 'Memori #2 🌊'
+      url: 'pict/2.jpg',
+      title: 'Kuliner Malam Penuh Canda',
+      caption: 'Momen sederhana makan berdua yang selalu dipenuhi tawa dan cerita seru.',
+      badge: 'Memori #2 🍜'
     },
     {
-      url: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=800&q=80',
-      title: 'Senja di Tepian Laut',
-      caption: 'Cahaya jingga keemasan yang mengingatkanku pada kehangatan tawamu.',
-      badge: 'Memori #3 🌅'
+      url: 'pict/3.jpg',
+      title: 'Gaya Anggun & Memesona',
+      caption: 'Selalu tampil cantik dan memancarkan aura positif di mana pun berada.',
+      badge: 'Memori #3 ✨'
     },
     {
-      url: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80',
-      title: 'Taman Koral Penuh Warna',
-      caption: 'Dunia menjadi jauh lebih berwarna dan penuh keajaiban sejak kamu ada.',
-      badge: 'Memori #4 🪸'
+      url: 'pict/4.jpg',
+      title: 'Pesona di Tepi Samudera',
+      caption: 'Deburan ombak dan angin pantai menjadi saksi betapa indahnya senyumanmu.',
+      badge: 'Memori #4 🏖️'
     },
     {
-      url: 'https://images.unsplash.com/photo-1498654896293-37aacf113fd9?auto=format&fit=crop&w=800&q=80',
-      title: 'Kilau Mutiara Alami',
-      caption: 'Mutiara paling indah yang tersimpan rapi dengan segenap kemurniannya.',
-      badge: 'Memori #5 🐚'
+      url: 'pict/5.jpg',
+      title: 'Ketenangan Aliran Alam',
+      caption: 'Sebening aliran air dan sejuknya alam, seperti ketulusan hatimu yang damai.',
+      badge: 'Memori #5 🌿'
     },
     {
-      url: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?auto=format&fit=crop&w=800&q=80',
-      title: 'Cakrawala Tak Terbatas',
-      caption: 'Sebesar itu pula doa dan harapan baikku untuk masa depanmu yang cerah.',
-      badge: 'Memori #6 ✨'
+      url: 'pict/6.jpg',
+      title: 'Kilau Biru Manis',
+      caption: 'Warna biru yang menyejukkan, seindah tatapan dan kebaikan hatimu.',
+      badge: 'Memori #6 🌸'
     },
     {
-      url: 'https://images.unsplash.com/photo-1520116468418-095984ab1726?auto=format&fit=crop&w=800&q=80',
-      title: 'Ombak Keteguhan',
-      caption: 'Kamu adalah sosok kuat yang selalu tabah dan bangkit mengarungi badai apa pun.',
-      badge: 'Memori #7 🌊'
+      url: 'pict/7.jpg',
+      title: 'Cahaya Mentari Cerah',
+      caption: 'Kehadiranmu selalu menghangatkan suasana dan membawa keceriaan tiada henti.',
+      badge: 'Memori #7 ☀️'
     },
     {
-      url: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80',
-      title: 'Petualangan Menjelajah',
-      caption: 'Setiap perjalanan bersamamu selalu melahirkan tawa dan cerita tak terlupakan.',
-      badge: 'Memori #8 🚗'
+      url: 'pict/8.jpg',
+      title: 'Ratu Penuh Pesona',
+      caption: 'Sosok luar biasa yang begitu memukau, anggun, dan berkarisma.',
+      badge: 'Memori #8 👑'
     },
     {
-      url: 'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&w=800&q=80',
-      title: 'Kedamaian Pesisir',
-      caption: 'Di tengah riuhnya dunia, berbincang denganmu selalu membawaku pulang.',
-      badge: 'Memori #9 🌿'
+      url: 'pict/9.jpg',
+      title: 'Romansa Malam Kota',
+      caption: 'Menikmati syahdunya malam bersama obrolan panjang yang tak pernah membosankan.',
+      badge: 'Memori #9 🌙'
     },
     {
-      url: 'https://images.unsplash.com/photo-1516683037151-9a17603a8dc7?auto=format&fit=crop&w=800&q=80',
-      title: 'Pena & Surat Rahasia',
-      caption: 'Kata-kata ini kutulis khusus untuk merayakan kehadiran manusia paling manis.',
-      badge: 'Memori #10 💌'
+      url: 'pict/10.jpg',
+      title: 'Langkah Doa & Harapan',
+      caption: 'Di setiap tempat penuh berkah, selalu kuselipkan doa terbaik untuk keselamatanmu.',
+      badge: 'Memori #10 🕌'
     },
     {
-      url: 'https://images.unsplash.com/photo-1509233725247-49e657c54213?auto=format&fit=crop&w=800&q=80',
-      title: 'Matahari Terbit Bahagia',
-      caption: 'Fajar baru untuk usiamu yang baru, semoga hari-harimu dipenuhi sukacita.',
-      badge: 'Memori #11 🌄'
+      url: 'pict/11.jpg',
+      title: 'Dedikasi & Semangat Hebat',
+      caption: 'Sosok perempuan tangguh dan pekerja keras yang selalu membuatku bangga.',
+      badge: 'Memori #11 🎓'
     },
     {
-      url: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=800&q=80',
-      title: 'Kesejukan Air Jernih',
-      caption: 'Melihat senyummu terasa seperti meminum air segar di hari yang terik.',
-      badge: 'Memori #12 💧'
+      url: 'pict/12.jpg',
+      title: 'Tawa Manis Ceria',
+      caption: 'Tingkah lucu dan tawamu yang renyah selalu berhasil membuat hariku lebih berwarna.',
+      badge: 'Memori #12 🥐'
     },
     {
-      url: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=800&q=80',
-      title: 'Perahu Penyeberang Impian',
-      caption: 'Semoga setiap cita-citamu segera berlabuh di dermaga keberhasilan.',
-      badge: 'Memori #13 ⛵'
+      url: 'pict/13.jpg',
+      title: 'Refleksi Bahagia Kita',
+      caption: 'Dua insan yang saling melengkapi, melangkah bersama mengukir cerita indah.',
+      badge: 'Memori #13 🪞'
     },
     {
-      url: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80',
-      title: 'Bintang Malam Pesisir',
-      caption: 'Kelap-kelip ribuan bintang di langit pantai adalah saksi doa-doa tulus untukmu.',
-      badge: 'Memori #14 🌌'
+      url: 'pict/14.jpg',
+      title: 'Senja di Ujung Dermaga',
+      caption: 'Cakrawala laut di kala senja mengingatkan pada luasnya rasa sayang dan kagumku.',
+      badge: 'Memori #14 🌅'
     },
     {
-      url: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80',
-      title: 'Momen Manis Tak Terganti',
-      caption: 'Waktu boleh terus mengalir, namun kenangan bersamamu abadi tersimpan.',
-      badge: 'Memori #15 📷'
+      url: 'pict/15.jpg',
+      title: 'Perayaan Manis Berdua',
+      caption: 'Momen ulang tahun dan kejutan manis yang selalu membekas di relung hati.',
+      badge: 'Memori #15 🎂'
     },
     {
-      url: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80',
-      title: 'Dermaga Harapan Cinta',
-      caption: 'Selamat ulang tahun sekali lagi, teruslah bersinar dan berbahagia selalu!',
-      badge: 'Memori #16 💖'
+      url: 'pict/16.jpg',
+      title: 'Di Bawah Langit Samudera',
+      caption: 'Berdua menatap luasnya lautan, bersyukur atas hadirmu yang menyinari duniaku.',
+      badge: 'Memori #16 💫'
     }
   ];
 
@@ -200,7 +199,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Quiz Elements
   const quizCard = document.getElementById('quiz-card');
   const quizStep = document.getElementById('quiz-step');
-  const quizScoreDisplay = document.getElementById('quiz-score');
   const questionTitle = document.getElementById('question-title');
   const optionsContainer = document.getElementById('options-container');
   const quizFeedbackBox = document.getElementById('quiz-feedback-box');
@@ -242,7 +240,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (displayRecipientName) displayRecipientName.textContent = state.recipientName;
     if (landingMilestoneText) landingMilestoneText.textContent = state.milestoneText;
-    if (headerNameTag) headerNameTag.innerHTML = `Untuk: <strong>${escapeHtml(state.recipientName)}</strong>`;
+    const headerNameText = document.getElementById('header-name-text');
+    if (headerNameText) {
+      headerNameText.textContent = state.recipientName;
+    } else if (headerNameTag) {
+      headerNameTag.innerHTML = `Untuk: <strong>${escapeHtml(state.recipientName)}</strong>`;
+    }
     recipientNameInlines.forEach(el => {
       el.textContent = state.recipientName;
     });
@@ -316,8 +319,10 @@ document.addEventListener('DOMContentLoaded', () => {
     playWaveSound();
 
     if (direction === 'open') {
+      playSakuraMusic();
       transitionText.textContent = 'Menyelam ke Dasar Samudera Penuh Cinta... 🌊';
     } else {
+      pauseSakuraMusic();
       transitionText.textContent = 'Menyimpan Surat & Kembali Menatap Cakrawala... 🐚';
     }
 
@@ -331,7 +336,10 @@ document.addEventListener('DOMContentLoaded', () => {
         mainPage.removeAttribute('hidden');
         mainPage.classList.add('active');
         window.scrollTo({ top: 0, behavior: 'instant' });
+        // Guarantee song playback starts seamlessly upon entering main page
+        playSakuraMusic();
       } else {
+        pauseSakuraMusic();
         mainPage.classList.remove('active');
         mainPage.setAttribute('hidden', '');
         landingPage.removeAttribute('hidden');
@@ -351,13 +359,22 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (openLetterBtn) {
-    openLetterBtn.addEventListener('click', () => triggerOceanTransition('open'));
+    openLetterBtn.addEventListener('click', () => {
+      playSakuraMusic();
+      triggerOceanTransition('open');
+    });
   }
   if (bottleContainer) {
-    bottleContainer.addEventListener('click', () => triggerOceanTransition('open'));
+    bottleContainer.addEventListener('click', () => {
+      playSakuraMusic();
+      triggerOceanTransition('open');
+    });
   }
   if (closeLetterBtn) {
-    closeLetterBtn.addEventListener('click', () => triggerOceanTransition('close'));
+    closeLetterBtn.addEventListener('click', () => {
+      pauseSakuraMusic();
+      triggerOceanTransition('close');
+    });
   }
 
   // =========================================================================
@@ -495,91 +512,100 @@ document.addEventListener('DOMContentLoaded', () => {
   /**
    * Handle user selection:
    * - IF WRONG:
-   *    * Border card soal & jawaban berubah menjadi MERAH
-   *    * Muncul tombol "Lihat Jawaban Benar" HANYA saat jawaban salah!
-   *    * Sound error dimainkan
+   *    * Mark ONLY the chosen option as wrong (red border, shake animation & disabled).
+   *    * Other options REMAIN ACTIVE so user can immediately re-select until correct!
+   *    * No "pilih ulang" button needed.
+   *    * Sound error dimainkan.
    * - IF RIGHT:
-   *    * Border card soal & jawaban berubah menjadi HIJAU
-   *    * Tombol "Lihat Jawaban Benar" TIDAK MUNCUL sama sekali
-   *    * Sound sukacita dimainkan
+   *    * Highlight in green with celebration.
+   *    * Disable all options now that the correct answer is found.
+   *    * Reveal heartfelt love note celebration for this question.
+   *    * Enable "Pertanyaan Selanjutnya 🌊" button.
+   *    * Sound sukacita dimainkan.
    */
   function handleOptionSelect(chosenKey) {
     const qData = QUIZ_QUESTIONS[state.quizIndex];
     if (!qData) return;
 
     const chosenBtn = document.getElementById(`option-${chosenKey.toLowerCase()}`);
-    const buttons = optionsContainer.querySelectorAll('.option-btn');
-    buttons.forEach(btn => btn.disabled = true);
 
     if (chosenKey === qData.correctKey) {
       // ================= RIGHT ANSWER =================
-      state.quizScore += 1;
-      quizCard.classList.remove('state-wrong', 'state-love-reveal');
+      const allButtons = optionsContainer.querySelectorAll('.option-btn');
+      allButtons.forEach(btn => btn.disabled = true);
+
+      quizCard.classList.remove('state-wrong');
       quizCard.classList.add('state-correct');
 
-      if (chosenBtn) chosenBtn.classList.add('selected-correct');
+      if (chosenBtn) {
+        chosenBtn.classList.remove('selected-wrong');
+        chosenBtn.classList.add('selected-correct');
+      }
 
       feedbackMessage.className = 'feedback-message success';
-      feedbackMessage.textContent = '🎉 Luar biasa! Jawabanmu 100% TEPAT! Hatimu benar-benar peka! 💖';
+      feedbackMessage.innerHTML = '🎉 Benar sekali! Pilihanmu 100% tepat dari lubuk hati! 💖';
       quizFeedbackBox.hidden = false;
 
-      // STRICT REQUIREMENT: Tombol "Lihat Jawaban Benar" HANYA muncul saat salah!
-      seeCorrectBtn.hidden = true;
-      seeCorrectBtn.style.display = 'none';
+      // Ensure "Lihat Jawaban Benar" button is hidden
+      if (seeCorrectBtn) {
+        seeCorrectBtn.hidden = true;
+        seeCorrectBtn.style.display = 'none';
+      }
 
-      loveCelebrationContainer.hidden = true;
-      loveCelebrationContainer.style.display = 'none';
+      // Reveal sweet love celebration note
+      showLoveCelebration(qData);
 
       quizNextBtn.disabled = false;
       playCorrectChime();
 
     } else {
       // ================= WRONG ANSWER =================
-      quizCard.classList.remove('state-correct', 'state-love-reveal');
-      quizCard.classList.add('state-wrong'); // BORDER CARD BERUBAH MENJADI MERAH
+      // User can immediately re-select other options!
+      quizCard.classList.remove('state-correct');
+      quizCard.classList.add('state-wrong');
 
-      if (chosenBtn) chosenBtn.classList.add('selected-wrong'); // BORDER JAWABAN BERUBAH MENJADI MERAH
+      if (chosenBtn) {
+        chosenBtn.classList.add('selected-wrong');
+        chosenBtn.disabled = true; // Prevents clicking the exact same wrong choice again
+      }
 
       feedbackMessage.className = 'feedback-message error';
-      feedbackMessage.textContent = qData.wrongNote || 'Ups, kurang tepat nih...';
+      feedbackMessage.innerHTML = '❌ ' + (qData.wrongNote || 'Ups, kurang tepat nih! Yuk coba pilih jawaban yang lain... 🌊');
       quizFeedbackBox.hidden = false;
 
-      // STRICT REQUIREMENT: Tombol "Lihat Jawaban Benar" MUNCUL HANYA KETIKA SALAH!
-      seeCorrectBtn.hidden = false;
-      seeCorrectBtn.style.display = 'inline-flex';
-
-      loveCelebrationContainer.hidden = true;
-      loveCelebrationContainer.style.display = 'none';
+      // Keep seeCorrectBtn hidden as user can naturally re-select
+      if (seeCorrectBtn) {
+        seeCorrectBtn.hidden = true;
+        seeCorrectBtn.style.display = 'none';
+      }
 
       playWrongBuzz();
     }
   }
 
-  // When "Lihat Jawaban Benar" is clicked:
-  // Memunculkan jawabannya di card quiz dengan animasi perayaan nuansa kasih sayang
-  seeCorrectBtn.addEventListener('click', () => {
-    const qData = QUIZ_QUESTIONS[state.quizIndex];
-    if (!qData) return;
+  // Optional fallback for "Lihat Jawaban Benar" if triggered
+  if (seeCorrectBtn) {
+    seeCorrectBtn.addEventListener('click', () => {
+      const qData = QUIZ_QUESTIONS[state.quizIndex];
+      if (!qData) return;
 
-    // Highlight the correct option in green
-    const correctBtn = document.getElementById(`option-${qData.correctKey.toLowerCase()}`);
-    if (correctBtn) correctBtn.classList.add('selected-correct');
+      const correctBtn = document.getElementById(`option-${qData.correctKey.toLowerCase()}`);
+      if (correctBtn) correctBtn.classList.add('selected-correct');
 
-    // Switch card border from Red to Love Pink glowing aura
-    quizCard.classList.remove('state-wrong');
-    quizCard.classList.add('state-love-reveal');
+      quizCard.classList.remove('state-wrong');
+      quizCard.classList.add('state-love-reveal');
 
-    // Hide see button, reveal loving celebration
-    seeCorrectBtn.hidden = true;
-    seeCorrectBtn.style.display = 'none';
+      seeCorrectBtn.hidden = true;
+      seeCorrectBtn.style.display = 'none';
 
-    feedbackMessage.className = 'feedback-message success';
-    feedbackMessage.textContent = '✨ Jangan bersedih, inilah jawaban paling berharga buat kamu! ✨';
+      feedbackMessage.className = 'feedback-message success';
+      feedbackMessage.textContent = '✨ Jangan bersedih, inilah jawaban paling berharga buat kamu! ✨';
 
-    showLoveCelebration(qData);
-    quizNextBtn.disabled = false;
-    playLoveSound();
-  });
+      showLoveCelebration(qData);
+      quizNextBtn.disabled = false;
+      playLoveSound();
+    });
+  }
 
   function showLoveCelebration(qData) {
     celebrationTitle.textContent = 'Rahasia Terbuka!';
@@ -616,15 +642,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /**
    * Final Quiz Summary:
-   * When user finishes quiz and clicks "Ulangi Kuis Dari Awal",
-   * STRICT REQUIREMENT: Redirect kembali ke Soal Pertama (TIDAK reload halaman)!
+   * Redirect kembali ke Soal Pertama (TIDAK reload halaman)!
    */
   function showFinalQuizSummary() {
     quizCard.classList.remove('state-wrong', 'state-correct');
     quizCard.classList.add('state-love-reveal');
-    if (quizScoreDisplay) {
-      quizScoreDisplay.textContent = 'Skor Cinta: 100% Sempurna! 💖';
-    }
 
     questionTitle.innerHTML = `🏆 Selamat! Kamu Telah Menyelami Seluruh Kuis Kasih Sayang 🌊💖`;
     optionsContainer.innerHTML = `
@@ -648,7 +670,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Redirect kembali ke Soal Pertama (TIDAK reload halaman)
     quizNextBtn.onclick = function () {
       state.quizIndex = 0;
-      state.quizScore = 0;
       quizNextBtn.textContent = 'Pertanyaan Selanjutnya 🌊';
       quizNextBtn.onclick = null; // Re-use standard event listener
 
@@ -722,44 +743,53 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function playSakuraMusic() {
+    ensureAudioContext();
+    if (state.musicPlaying) return;
+
+    if (sakuraAudio) {
+      sakuraAudio.volume = 0.85;
+      const playPromise = sakuraAudio.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          setMusicPlayingState(true);
+        }).catch((err) => {
+          console.warn('Local MP3 play prevented or waiting for user gesture:', err);
+          if (ytPlayer && ytReady && typeof ytPlayer.playVideo === 'function') {
+            try {
+              ytPlayer.playVideo();
+              setMusicPlayingState(true);
+            } catch (_) { }
+          }
+        });
+        return;
+      }
+    }
+
+    if (ytPlayer && ytReady && typeof ytPlayer.playVideo === 'function') {
+      try {
+        ytPlayer.playVideo();
+        setMusicPlayingState(true);
+      } catch (_) { }
+    }
+  }
+
+  function pauseSakuraMusic() {
+    if (sakuraAudio && !sakuraAudio.paused) {
+      sakuraAudio.pause();
+    }
+    if (ytPlayer && ytReady && typeof ytPlayer.pauseVideo === 'function') {
+      try { ytPlayer.pauseVideo(); } catch (_) { }
+    }
+    setMusicPlayingState(false);
+  }
+
   function toggleSakuraMusic() {
     ensureAudioContext();
-
     if (state.musicPlaying) {
-      // Pause music
-      if (sakuraAudio && !sakuraAudio.paused) {
-        sakuraAudio.pause();
-      }
-      if (ytPlayer && ytReady && typeof ytPlayer.pauseVideo === 'function') {
-        try { ytPlayer.pauseVideo(); } catch (_) { }
-      }
-      setMusicPlayingState(false);
+      pauseSakuraMusic();
     } else {
-      // Play music: Try local MP3 first, fallback to YouTube official stream
-      if (sakuraAudio) {
-        const playPromise = sakuraAudio.play();
-        if (playPromise !== undefined) {
-          playPromise.then(() => {
-            setMusicPlayingState(true);
-          }).catch(() => {
-            // Local file not present -> Play via YouTube Player
-            if (ytPlayer && ytReady && typeof ytPlayer.playVideo === 'function') {
-              try {
-                ytPlayer.playVideo();
-                setMusicPlayingState(true);
-              } catch (_) { }
-            }
-          });
-          return;
-        }
-      }
-
-      if (ytPlayer && ytReady && typeof ytPlayer.playVideo === 'function') {
-        try {
-          ytPlayer.playVideo();
-          setMusicPlayingState(true);
-        } catch (_) { }
-      }
+      playSakuraMusic();
     }
   }
 
