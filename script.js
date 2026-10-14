@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { key: 'B', text: 'Selalu sehat, dilimpahi bahagia, dan tercapai semua impianmu' },
         { key: 'C', text: 'Bisa terbang ke planet Mars sendirian' }
       ],
-      correctKey: 'B',
+      correctKey: 'D',
       correctText: 'B. Selalu sehat, dilimpahi bahagia, dan tercapai semua impianmu',
       wrongNote: 'Hehe salah tebak! Harapan ini begitu tulus dari lubuk hati...',
       loveNote: 'Semoga setiap tetes kebaikan yang kamu beri berbalik menjadi berkah berlimpah untuk hidupmu. Selamat ulang tahun sayang! 🎂🌊💙'
