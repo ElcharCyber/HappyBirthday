@@ -1,30 +1,25 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>Happy Birthday Under the Ocean 🌊✨</title>
-  <meta name="description" content="Website ucapan selamat ulang tahun spesial bertema Samudera Lautan yang interaktif, penuh kenangan, galeri foto, dan kuis kasih sayang.">
-  
+  <meta name="description"
+    content="Website ucapan selamat ulang tahun spesial bertema Samudera Lautan yang interaktif, penuh kenangan, galeri foto, dan kuis kasih sayang.">
+
   <!-- Google Fonts: Playfair Display, Plus Jakarta Sans, Caveat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
   <!-- Stylesheet -->
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <!-- Ambient Audio Controller Button -->
-  <button id="audio-toggle-btn" class="audio-btn" aria-label="Nyalakan Musik & Suasana Ombak" title="Suara Ombak & Melodi Lautan">
-    <span class="audio-icon" id="audio-icon">🌊</span>
-    <span class="audio-text" id="audio-text">Nyalakan Melodi</span>
-  </button>
 
-  <!-- Interactive Custom Name Quick Editor Button -->
-  <button id="edit-name-btn" class="edit-name-btn" aria-label="Ganti Nama Ulang Tahun" title="Ubah Nama">
-    ✏️ <span class="edit-btn-text">Ganti Nama</span>
-  </button>
+<body>
 
   <!-- Background Ocean Canvas & Elements -->
   <div class="ocean-background" aria-hidden="true">
@@ -33,7 +28,7 @@
     <div class="ambient-glow glow-2"></div>
     <div class="ambient-glow glow-3"></div>
     <div id="bubbles-container" class="bubbles-container"></div>
-    
+
     <!-- Floating marine silhouette accents -->
     <div class="floating-creature creature-jellyfish">🪼</div>
     <div class="floating-creature creature-turtle">🐢</div>
@@ -78,11 +73,12 @@
 
       <h1 class="landing-title">
         <span class="title-sub">Selamat Ulang Tahun</span>
-        <span class="title-main" id="display-recipient-name">Adinda Cantik</span>
+        <span class="title-main" id="display-recipient-name">Ihza Salma Maulida</span>
       </h1>
 
       <p class="landing-subtitle">
-        Di kedalaman samudera tersembunyi beribu mutiara, namun hari ini, senyumanmu adalah keindahan paling berkilau di seluruh alam semesta. 🌊✨
+        Di kedalaman samudera tersembunyi beribu mutiara, namun hari ini, senyumanmu adalah keindahan paling berkilau di
+        seluruh alam semesta. 🌊✨
       </p>
 
       <!-- Glass Jar / Treasure Box Teaser Animation -->
@@ -119,11 +115,26 @@
        ============================================== -->
   <section id="main-page" class="page-section main-page" hidden>
     <div class="main-container">
-      
+
       <!-- Top Ocean Navigation Bar -->
       <header class="ocean-header">
         <div class="header-seal">🌊 Under The Sea Wishes 🌊</div>
-        <div class="header-name-tag" id="header-name-tag">Untuk: <strong>Adinda Cantik</strong></div>
+
+        <!-- SAKURA - ROSSA MUSIC PLAYER (MAIN PAGE ONLY) -->
+        <div class="header-music-widget">
+          <button id="music-toggle-btn" class="music-toggle-btn" type="button" aria-label="Putar Lagu Sakura - Rossa">
+            <span class="music-icon" id="music-icon">🌸</span>
+            <span class="music-label">
+              <span class="music-song">Sakura — Rossa</span>
+              <span class="music-status" id="music-status">Putar Lagu ▶</span>
+            </span>
+            <span class="music-wave" id="music-wave" aria-hidden="true">
+              <i></i><i></i><i></i><i></i>
+            </span>
+          </button>
+        </div>
+
+        <div class="header-name-tag" id="header-name-tag">Untuk: <strong>Ihza Salma Maulida</strong></div>
       </header>
 
       <!-- ==============================================
@@ -141,28 +152,34 @@
               <span class="stamp-icon">🫧</span>
               <span class="stamp-text">Pos Samudera</span>
             </div>
-            <div class="letter-date" id="letter-current-date">14 Oktober • Hari Penuh Kasih</div>
+            <div class="letter-date" id="letter-current-date">15 Oktober • Hari Penuh Kasih</div>
           </div>
 
           <div class="letter-body">
-            <h3 class="letter-salutation">Hai, <span class="recipient-name-inline">Adinda</span> tercinta... 💙</h3>
-            
+            <h3 class="letter-salutation">Hai,<span class="recipient-name-inline">Sayangku</span> tercinta... 💙</h3>
+
             <p class="letter-paragraph">
-              Selamat bertambah usia yang sangat indah! Jika kasih sayang dan doa-doa baik bisa diwujudkan dalam tetesan air, maka hari ini seluruh samudera raya tak akan pernah cukup untuk menampung betapa luasnya harapan terbaik yang kupanjatkan untukmu.
+              Selamat bertambah usia yang sangat indah! Jika kasih sayang dan doa-doa baik bisa diwujudkan dalam tetesan
+              air, maka hari ini seluruh samudera raya tak akan pernah cukup untuk menampung betapa luasnya harapan
+              terbaik yang kupanjatkan untukmu.
             </p>
-            
+
             <p class="letter-paragraph">
-              Terima kasih sudah lahir ke dunia ini, tumbuh menjadi pribadi yang sekuat ombak di lautan bebas, namun tetap memiliki kelembutan sehangat mentari pagi di pesisir pantai. Kehadiranmu selalu membawa ketenangan, sejuk seperti hembusan angin laut, dan membawa warna bahagia yang tak tergantikan.
+              Terima kasih sudah lahir ke dunia ini, tumbuh menjadi pribadi yang sekuat ombak di lautan bebas, namun
+              tetap memiliki kelembutan sehangat mentari pagi di pesisir pantai. Kehadiranmu selalu membawa ketenangan,
+              sejuk seperti hembusan angin laut, dan membawa warna bahagia yang tak tergantikan.
             </p>
 
             <p class="letter-paragraph highlight-quote">
-              "Seperti mutiara yang berharga di dasar samudera, semoga setiap langkah hidupmu senantiasa diliputi berkah, kesehatan, tawa yang tak pernah pudar, serta impian besar yang perlahan berlabuh menjadi kenyataan."
+              "Seperti mutiara yang berharga di dasar samudera, semoga setiap langkah hidupmu senantiasa diliputi
+              berkah, kesehatan, tawa yang tak pernah pudar, serta impian besar yang perlahan berlabuh menjadi
+              kenyataan."
             </p>
 
             <div class="letter-footer">
               <div class="signature-block">
                 <p class="signature-note">Dengan segenap rasa sayang & kagum,</p>
-                <p class="signature-name">Dari Lautan yang Selalu Menyayangimu 🐚💙</p>
+                <p class="signature-name">Dari Aku yang Selalu Menyayangimu 🐚💙</p>
               </div>
               <div class="wax-seal">
                 <span class="wax-icon">🧜‍♀️</span>
@@ -179,7 +196,8 @@
         <div class="section-title-wrap">
           <span class="section-badge">📸 Lembaran Momen Pilihan</span>
           <h2 class="section-heading">Galeri Samudera Kenangan</h2>
-          <p class="section-desc">Kumpulan 16+ potret berharga yang tersimpan rapi bagai mutiara di dasar laut. Klik tiap foto untuk melihat memori di baliknya!</p>
+          <p class="section-desc">Kumpulan 16+ potret berharga yang tersimpan rapi bagai mutiara di dasar laut. Klik
+            tiap foto untuk melihat memori di baliknya!</p>
         </div>
 
         <!-- Abstract Scattered Polaroid Collage Grid -->
@@ -205,7 +223,7 @@
         <div class="quiz-card-wrapper">
           <!-- Quiz Main Container -->
           <div class="quiz-card glass-card" id="quiz-card">
-            
+
             <!-- Quiz Progress & Header -->
             <div class="quiz-header">
               <div class="quiz-counter" id="quiz-counter">
@@ -231,7 +249,7 @@
                 <span class="option-badge">A</span>
                 <span class="option-text" id="option-text-a">Matahari terbenam di ufuk barat</span>
               </button>
-              
+
               <button class="option-btn" id="option-b" data-choice="B" type="button">
                 <span class="option-badge">B</span>
                 <span class="option-text" id="option-text-b">Senyuman manis kamu saat sedang bahagia</span>
@@ -246,7 +264,7 @@
             <!-- Feedback / Error Area & "Lihat Jawaban Benar" Button -->
             <div class="quiz-feedback-box" id="quiz-feedback-box" hidden>
               <div class="feedback-message" id="feedback-message"></div>
-              
+
               <!-- Tombol muncul saat jawaban SALAH -->
               <button class="see-correct-btn" id="see-correct-btn" type="button" hidden>
                 <span class="btn-heart">💝</span>
@@ -272,7 +290,8 @@
                   Jawaban Benar adalah: <strong>B. Senyuman manis kamu saat sedang bahagia</strong>
                 </p>
                 <p class="celebration-sweet-note" id="celebration-sweet-note">
-                  "Karena ribuan pemandangan alam di bumi pun tak akan ada yang bisa menandingi indahnya senyumanmu. Tetaplah tersenyum manis ya! 💖"
+                  "Karena ribuan pemandangan alam di bumi pun tak akan ada yang bisa menandingi indahnya senyumanmu.
+                  Tetaplah tersenyum manis ya! 💖"
                 </p>
               </div>
             </div>
@@ -296,7 +315,8 @@
           <div class="seashell-icon-large">🐚</div>
           <h3 class="close-title">Terima Kasih Sudah Menyelami Samudera Ini</h3>
           <p class="close-desc">
-            Semoga hari ulang tahunmu membawa beribu berkah, kebahagiaan tak terhingga, dan kedamaian sedalam samudera. Kapan pun kamu butuh tempat berlabuh, ingatlah bahwa ada cinta yang selalu mendoakanmu.
+            Semoga hari ulang tahunmu membawa beribu berkah, kebahagiaan tak terhingga, dan kedamaian sedalam samudera.
+            Kapan pun kamu butuh tempat berlabuh, ingatlah bahwa ada cinta yang selalu mendoakanmu.
           </p>
 
           <!-- The Close Letter Button requested by user -->
@@ -306,7 +326,7 @@
             <span class="close-btn-text">Tutup Surat</span>
             <span class="close-btn-wave">🌊</span>
           </button>
-          
+
           <p class="close-hint">Surat akan terlipat rapi dan kamu akan kembali ke beranda lautan</p>
         </div>
       </footer>
@@ -332,32 +352,14 @@
     </div>
   </div>
 
-  <!-- ==============================================
-       NAME CUSTOMIZATION MODAL (EASY USER EDIT)
-       ============================================== -->
-  <div id="name-modal" class="name-modal" aria-hidden="true" role="dialog">
-    <div class="modal-backdrop" id="name-modal-backdrop"></div>
-    <div class="name-modal-content glass-card">
-      <button class="modal-close-btn" id="name-modal-close" aria-label="Tutup Modal">✕</button>
-      <div class="name-modal-icon">🐚✨</div>
-      <h3 class="name-modal-title">Ganti Nama Spesial</h3>
-      <p class="name-modal-subtitle">Ketik nama orang tersayang yang sedang berulang tahun:</p>
-      
-      <div class="input-group">
-        <input type="text" id="name-input" class="name-input" placeholder="Contoh: Putri / Sayang / Clarissa" maxlength="30">
-      </div>
-
-      <div class="input-group">
-        <input type="text" id="milestone-input" class="name-input" placeholder="Contoh: Happy 20th Birthday / Sweet Seventeen" maxlength="40">
-      </div>
-
-      <div class="name-modal-actions">
-        <button id="save-name-btn" class="save-name-btn" type="button">Simpan & Terapkan 🌊</button>
-      </div>
-    </div>
+  <!-- Background Audio: Sakura by Rossa (Local MP3 & YouTube Fallback) -->
+  <audio id="sakura-audio" src="sakura-rossa.mp3" preload="auto" loop></audio>
+  <div id="yt-player-container" class="yt-hidden-player" aria-hidden="true">
+    <div id="yt-player-frame"></div>
   </div>
 
   <!-- JavaScript -->
   <script src="script.js"></script>
 </body>
+
 </html>

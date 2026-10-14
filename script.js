@@ -1,6 +1,6 @@
 /**
  * OCEAN THEMED BIRTHDAY GREETING - INTERACTIVE JAVASCRIPT
- * Responsive, Dynamic Ocean Transitions, 16+ Photo Gallery, Quiz Kasih Sayang & Ambient Audio
+ * Responsive, Dynamic Ocean Transitions, 16+ Photo Gallery, Quiz Kasih Sayang & Sakura (Rossa) Music Player
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -8,9 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // 1. CONFIGURATION & STATE MANAGEMENT
   // =========================================================================
   const state = {
-    recipientName: 'Adinda Cantik',
+    recipientName: 'Ihza Salma Maulida',
     milestoneText: 'Spesial Hari Kelahiran',
-    audioPlaying: false,
+    musicPlaying: false,
     quizIndex: 0,
     quizScore: 0,
     isTransitioning: false,
@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const mainPage = document.getElementById('main-page');
   const oceanOverlay = document.getElementById('ocean-transition-overlay');
   const transitionText = document.getElementById('transition-text');
-  
+
   const openLetterBtn = document.getElementById('open-letter-btn');
   const closeLetterBtn = document.getElementById('close-letter-btn');
   const bottleContainer = document.getElementById('bottle-container');
@@ -186,15 +186,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const headerNameTag = document.getElementById('header-name-tag');
   const recipientNameInlines = document.querySelectorAll('.recipient-name-inline');
   const letterCurrentDate = document.getElementById('letter-current-date');
-
-  // Edit Name Modal Elements
-  const editNameBtn = document.getElementById('edit-name-btn');
-  const nameModal = document.getElementById('name-modal');
-  const nameModalClose = document.getElementById('name-modal-close');
-  const nameModalBackdrop = document.getElementById('name-modal-backdrop');
-  const nameInput = document.getElementById('name-input');
-  const milestoneInput = document.getElementById('milestone-input');
-  const saveNameBtn = document.getElementById('save-name-btn');
 
   // Gallery Elements
   const abstractGallery = document.getElementById('abstract-gallery');
@@ -211,16 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const quizStep = document.getElementById('quiz-step');
   const quizScoreDisplay = document.getElementById('quiz-score');
   const questionTitle = document.getElementById('question-title');
-  const optionBtns = [
-    document.getElementById('option-a'),
-    document.getElementById('option-b'),
-    document.getElementById('option-c')
-  ];
-  const optionTexts = {
-    A: document.getElementById('option-text-a'),
-    B: document.getElementById('option-text-b'),
-    C: document.getElementById('option-text-c')
-  };
+  const optionsContainer = document.getElementById('options-container');
   const quizFeedbackBox = document.getElementById('quiz-feedback-box');
   const feedbackMessage = document.getElementById('feedback-message');
   const seeCorrectBtn = document.getElementById('see-correct-btn');
@@ -230,32 +212,24 @@ document.addEventListener('DOMContentLoaded', () => {
   const celebrationSweetNote = document.getElementById('celebration-sweet-note');
   const quizNextBtn = document.getElementById('quiz-next-btn');
 
-  // Audio Toggle Element
-  const audioToggleBtn = document.getElementById('audio-toggle-btn');
-  const audioIcon = document.getElementById('audio-icon');
-  const audioText = document.getElementById('audio-text');
+  // Music Player Elements (Sakura - Rossa)
+  const musicToggleBtn = document.getElementById('music-toggle-btn');
+  const musicStatus = document.getElementById('music-status');
+  const sakuraAudio = document.getElementById('sakura-audio');
 
   // =========================================================================
-  // 3. INITIALIZE NAME & METADATA
+  // 3. INITIALIZE RECIPIENT INFORMATION (CLEAN, NO EDIT MODAL)
   // =========================================================================
   function initRecipientInfo() {
-    // Check URL search parameters e.g., ?name=Clarissa&milestone=Happy+20th+Birthday
     const urlParams = new URLSearchParams(window.location.search);
     const paramName = urlParams.get('name');
     const paramMilestone = urlParams.get('milestone');
-    const savedName = localStorage.getItem('ocean_bday_name');
-    const savedMilestone = localStorage.getItem('ocean_bday_milestone');
 
     if (paramName) {
       state.recipientName = paramName;
-    } else if (savedName) {
-      state.recipientName = savedName;
     }
-
     if (paramMilestone) {
       state.milestoneText = paramMilestone;
-    } else if (savedMilestone) {
-      state.milestoneText = savedMilestone;
     }
 
     // Format current date in Indonesian
@@ -266,10 +240,6 @@ document.addEventListener('DOMContentLoaded', () => {
       letterCurrentDate.textContent = `${formattedDate} • Hari Penuh Kasih`;
     }
 
-    applyRecipientInfo();
-  }
-
-  function applyRecipientInfo() {
     if (displayRecipientName) displayRecipientName.textContent = state.recipientName;
     if (landingMilestoneText) landingMilestoneText.textContent = state.milestoneText;
     if (headerNameTag) headerNameTag.innerHTML = `Untuk: <strong>${escapeHtml(state.recipientName)}</strong>`;
@@ -288,37 +258,6 @@ document.addEventListener('DOMContentLoaded', () => {
     })[m]);
   }
 
-  // Name customization modal logic
-  editNameBtn.addEventListener('click', () => {
-    nameInput.value = state.recipientName;
-    milestoneInput.value = state.milestoneText;
-    nameModal.classList.add('active');
-    nameModal.setAttribute('aria-hidden', 'false');
-  });
-
-  function closeNameModal() {
-    nameModal.classList.remove('active');
-    nameModal.setAttribute('aria-hidden', 'true');
-  }
-
-  nameModalClose.addEventListener('click', closeNameModal);
-  nameModalBackdrop.addEventListener('click', closeNameModal);
-
-  saveNameBtn.addEventListener('click', () => {
-    const newName = nameInput.value.trim();
-    const newMilestone = milestoneInput.value.trim();
-    if (newName) {
-      state.recipientName = newName;
-      localStorage.setItem('ocean_bday_name', newName);
-    }
-    if (newMilestone) {
-      state.milestoneText = newMilestone;
-      localStorage.setItem('ocean_bday_milestone', newMilestone);
-    }
-    applyRecipientInfo();
-    closeNameModal();
-  });
-
   // =========================================================================
   // 4. FLOATING BUBBLES GENERATOR WITH POPPING EFFECT
   // =========================================================================
@@ -329,11 +268,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const bubble = document.createElement('div');
     bubble.className = 'ocean-bubble';
 
-    // Randomize dimensions (18px - 58px)
     const size = Math.floor(Math.random() * 40) + 18;
-    const left = Math.random() * 95; // 0 - 95vw
-    const duration = Math.random() * 8 + 7; // 7s - 15s
-    const driftX = (Math.random() - 0.5) * 80; // -40px to +40px
+    const left = Math.random() * 95;
+    const duration = Math.random() * 8 + 7;
+    const driftX = (Math.random() - 0.5) * 80;
 
     bubble.style.width = `${size}px`;
     bubble.style.height = `${size}px`;
@@ -341,7 +279,6 @@ document.addEventListener('DOMContentLoaded', () => {
     bubble.style.animationDuration = `${duration}s`;
     bubble.style.setProperty('--drift-x', `${driftX}px`);
 
-    // Interactive popping on click or touch
     bubble.addEventListener('click', (e) => {
       e.stopPropagation();
       popBubble(bubble);
@@ -349,7 +286,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     bubblesContainer.appendChild(bubble);
 
-    // Auto remove when animation finishes
     setTimeout(() => {
       if (bubble.parentElement) bubble.remove();
     }, duration * 1000);
@@ -364,7 +300,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 200);
   }
 
-  // Generate initial bubbles and recurring stream
   for (let i = 0; i < 15; i++) {
     setTimeout(createBubble, i * 400);
   }
@@ -373,15 +308,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // =========================================================================
   // 5. OCEAN WAVE WASH SURGE PAGE TRANSITION
   // =========================================================================
-  /**
-   * Smoothly navigates between landing page and main page with full-screen ocean wave sweep
-   * @param {'open' | 'close'} direction
-   */
   function triggerOceanTransition(direction) {
     if (state.isTransitioning) return;
     state.isTransitioning = true;
 
-    // Play splash chime sound
+    // Sound effect is independent and always plays!
     playWaveSound();
 
     if (direction === 'open') {
@@ -390,12 +321,10 @@ document.addEventListener('DOMContentLoaded', () => {
       transitionText.textContent = 'Menyimpan Surat & Kembali Menatap Cakrawala... 🐚';
     }
 
-    // Phase 1: Waves surge UP to cover entire screen
     oceanOverlay.classList.remove('surge-out');
     oceanOverlay.classList.add('active', 'surge-in');
 
     setTimeout(() => {
-      // Phase 2: Screen is submerged! Swap views behind the water curtain
       if (direction === 'open') {
         landingPage.classList.remove('active');
         landingPage.setAttribute('hidden', '');
@@ -410,7 +339,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo({ top: 0, behavior: 'instant' });
       }
 
-      // Phase 3: Waves surge OUT to reveal the newly loaded page!
       oceanOverlay.classList.remove('surge-in');
       oceanOverlay.classList.add('surge-out');
 
@@ -422,15 +350,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 850);
   }
 
-  // Open letter actions
   if (openLetterBtn) {
     openLetterBtn.addEventListener('click', () => triggerOceanTransition('open'));
   }
   if (bottleContainer) {
     bottleContainer.addEventListener('click', () => triggerOceanTransition('open'));
   }
-
-  // Close letter action (returns to landing page as requested)
   if (closeLetterBtn) {
     closeLetterBtn.addEventListener('click', () => triggerOceanTransition('close'));
   }
@@ -460,7 +385,6 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
 
-      // Open Lightbox Modal on click or enter key
       const openModal = () => {
         modalImg.src = photo.url;
         modalBadge.textContent = photo.badge;
@@ -482,7 +406,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Lightbox close event handlers
   function closeLightbox() {
     photoModal.classList.remove('active');
     photoModal.setAttribute('aria-hidden', 'true');
@@ -494,13 +417,39 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeLightbox();
-      closeNameModal();
     }
   });
 
   // =========================================================================
   // 7. INTERACTIVE KASIH SAYANG QUIZ ENGINE
   // =========================================================================
+  function renderOptionButtons() {
+    if (!optionsContainer) return;
+    optionsContainer.innerHTML = `
+      <button class="option-btn" id="option-a" data-choice="A" type="button">
+        <span class="option-badge">A</span>
+        <span class="option-text" id="option-text-a"></span>
+      </button>
+      <button class="option-btn" id="option-b" data-choice="B" type="button">
+        <span class="option-badge">B</span>
+        <span class="option-text" id="option-text-b"></span>
+      </button>
+      <button class="option-btn" id="option-c" data-choice="C" type="button">
+        <span class="option-badge">C</span>
+        <span class="option-text" id="option-text-c"></span>
+      </button>
+    `;
+
+    // Re-bind click listeners
+    const buttons = optionsContainer.querySelectorAll('.option-btn');
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const choice = btn.getAttribute('data-choice');
+        handleOptionSelect(choice);
+      });
+    });
+  }
+
   function loadQuestion(index) {
     const qData = QUIZ_QUESTIONS[index];
     if (!qData) return;
@@ -508,50 +457,59 @@ document.addEventListener('DOMContentLoaded', () => {
     // Reset card states
     quizCard.classList.remove('state-wrong', 'state-correct', 'state-love-reveal');
     quizFeedbackBox.hidden = true;
+
+    // Ensure "Lihat Jawaban Benar" is strictly hidden initially
     seeCorrectBtn.hidden = true;
+    seeCorrectBtn.style.display = 'none';
+
     loveCelebrationContainer.hidden = true;
+    loveCelebrationContainer.style.display = 'none';
     quizNextBtn.disabled = true;
 
-    // Reset option buttons
-    optionBtns.forEach(btn => {
+    // Update Counter & Heading
+    quizStep.textContent = `${index + 1}`;
+    questionTitle.textContent = qData.question;
+    const totalQuestions = QUIZ_QUESTIONS.length;
+    const totalEl = document.querySelector('.counter-total');
+    if (totalEl) totalEl.textContent = `/ ${totalQuestions}`;
+
+    // Populate option texts
+    const textA = document.getElementById('option-text-a');
+    const textB = document.getElementById('option-text-b');
+    const textC = document.getElementById('option-text-c');
+
+    qData.options.forEach(opt => {
+      if (opt.key === 'A' && textA) textA.textContent = opt.text;
+      if (opt.key === 'B' && textB) textB.textContent = opt.text;
+      if (opt.key === 'C' && textC) textC.textContent = opt.text;
+    });
+
+    // Reset option button state classes
+    const buttons = optionsContainer.querySelectorAll('.option-btn');
+    buttons.forEach(btn => {
       btn.disabled = false;
       btn.classList.remove('selected-wrong', 'selected-correct');
     });
-
-    // Populate question and options
-    quizStep.textContent = `${index + 1}`;
-    questionTitle.textContent = qData.question;
-
-    qData.options.forEach(opt => {
-      if (optionTexts[opt.key]) {
-        optionTexts[opt.key].textContent = opt.text;
-      }
-    });
-
-    // Update Counter / Progress
-    const totalQuestions = QUIZ_QUESTIONS.length;
-    document.querySelector('.counter-total').textContent = `/ ${totalQuestions}`;
   }
 
   /**
    * Handle user selection:
-   * - If WRONG:
-   *    * Quiz card border turns RED (state-wrong)
-   *    * Option chosen border turns RED (selected-wrong)
-   *    * Shows "Lihat Jawaban Benar" button
-   * - If RIGHT:
-   *    * Quiz card border turns GREEN (state-correct)
-   *    * Option chosen border turns GREEN (selected-correct)
-   *    * Celebrates!
+   * - IF WRONG:
+   *    * Border card soal & jawaban berubah menjadi MERAH
+   *    * Muncul tombol "Lihat Jawaban Benar" HANYA saat jawaban salah!
+   *    * Sound error dimainkan
+   * - IF RIGHT:
+   *    * Border card soal & jawaban berubah menjadi HIJAU
+   *    * Tombol "Lihat Jawaban Benar" TIDAK MUNCUL sama sekali
+   *    * Sound sukacita dimainkan
    */
   function handleOptionSelect(chosenKey) {
     const qData = QUIZ_QUESTIONS[state.quizIndex];
     if (!qData) return;
 
     const chosenBtn = document.getElementById(`option-${chosenKey.toLowerCase()}`);
-
-    // Disable all options once answered
-    optionBtns.forEach(btn => btn.disabled = true);
+    const buttons = optionsContainer.querySelectorAll('.option-btn');
+    buttons.forEach(btn => btn.disabled = true);
 
     if (chosenKey === qData.correctKey) {
       // ================= RIGHT ANSWER =================
@@ -564,40 +522,41 @@ document.addEventListener('DOMContentLoaded', () => {
       feedbackMessage.className = 'feedback-message success';
       feedbackMessage.textContent = '🎉 Luar biasa! Jawabanmu 100% TEPAT! Hatimu benar-benar peka! 💖';
       quizFeedbackBox.hidden = false;
-      seeCorrectBtn.hidden = true;
 
-      // Reveal sweet celebration card directly
-      showLoveCelebration(qData, true);
+      // STRICT REQUIREMENT: Tombol "Lihat Jawaban Benar" HANYA muncul saat salah!
+      seeCorrectBtn.hidden = true;
+      seeCorrectBtn.style.display = 'none';
+
+      loveCelebrationContainer.hidden = true;
+      loveCelebrationContainer.style.display = 'none';
+
       quizNextBtn.disabled = false;
       playCorrectChime();
 
     } else {
       // ================= WRONG ANSWER =================
       quizCard.classList.remove('state-correct', 'state-love-reveal');
-      quizCard.classList.add('state-wrong'); // BORDER TURNS RED AS REQUESTED
+      quizCard.classList.add('state-wrong'); // BORDER CARD BERUBAH MENJADI MERAH
 
-      if (chosenBtn) chosenBtn.classList.add('selected-wrong'); // BORDER TURNS RED
+      if (chosenBtn) chosenBtn.classList.add('selected-wrong'); // BORDER JAWABAN BERUBAH MENJADI MERAH
 
       feedbackMessage.className = 'feedback-message error';
       feedbackMessage.textContent = qData.wrongNote || 'Ups, kurang tepat nih...';
       quizFeedbackBox.hidden = false;
 
-      // Show "Lihat Jawaban Benar" button as specifically requested!
+      // STRICT REQUIREMENT: Tombol "Lihat Jawaban Benar" MUNCUL HANYA KETIKA SALAH!
       seeCorrectBtn.hidden = false;
+      seeCorrectBtn.style.display = 'inline-flex';
+
+      loveCelebrationContainer.hidden = true;
+      loveCelebrationContainer.style.display = 'none';
+
       playWrongBuzz();
     }
   }
 
-  // Attach click listeners to options A, B, C
-  optionBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const choice = btn.getAttribute('data-choice');
-      handleOptionSelect(choice);
-    });
-  });
-
   // When "Lihat Jawaban Benar" is clicked:
-  // Memunculkan jawabannya di card quiz dengan animasi perayaan dengan nuansa kasih sayang
+  // Memunculkan jawabannya di card quiz dengan animasi perayaan nuansa kasih sayang
   seeCorrectBtn.addEventListener('click', () => {
     const qData = QUIZ_QUESTIONS[state.quizIndex];
     if (!qData) return;
@@ -612,19 +571,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Hide see button, reveal loving celebration
     seeCorrectBtn.hidden = true;
+    seeCorrectBtn.style.display = 'none';
+
     feedbackMessage.className = 'feedback-message success';
     feedbackMessage.textContent = '✨ Jangan bersedih, inilah jawaban paling berharga buat kamu! ✨';
 
-    showLoveCelebration(qData, false);
+    showLoveCelebration(qData);
     quizNextBtn.disabled = false;
     playLoveSound();
   });
 
-  function showLoveCelebration(qData, isOriginallyCorrect) {
-    celebrationTitle.textContent = isOriginallyCorrect ? 'Jawaban Sempurna!' : 'Rahasia Terbuka!';
+  function showLoveCelebration(qData) {
+    celebrationTitle.textContent = 'Rahasia Terbuka!';
     celebrationAnswerText.innerHTML = `Jawaban Benar adalah: <strong>${escapeHtml(qData.correctText)}</strong>`;
     celebrationSweetNote.textContent = `"${qData.loveNote}"`;
     loveCelebrationContainer.hidden = false;
+    loveCelebrationContainer.style.display = 'block';
 
     // Trigger love hearts animation burst
     const decor = document.querySelector('.love-burst-decor');
@@ -641,23 +603,31 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Next Question Button
-  quizNextBtn.addEventListener('click', () => {
+  function onNextQuestionClick() {
     if (state.quizIndex < QUIZ_QUESTIONS.length - 1) {
       state.quizIndex++;
       loadQuestion(state.quizIndex);
     } else {
-      // Quiz Finished - Show Victory Celebration
       showFinalQuizSummary();
     }
-  });
+  }
 
+  quizNextBtn.addEventListener('click', onNextQuestionClick);
+
+  /**
+   * Final Quiz Summary:
+   * When user finishes quiz and clicks "Ulangi Kuis Dari Awal",
+   * STRICT REQUIREMENT: Redirect kembali ke Soal Pertama (TIDAK reload halaman)!
+   */
   function showFinalQuizSummary() {
     quizCard.classList.remove('state-wrong', 'state-correct');
     quizCard.classList.add('state-love-reveal');
-    quizHeaderHide();
+    if (quizScoreDisplay) {
+      quizScoreDisplay.textContent = 'Skor Cinta: 100% Sempurna! 💖';
+    }
 
     questionTitle.innerHTML = `🏆 Selamat! Kamu Telah Menyelami Seluruh Kuis Kasih Sayang 🌊💖`;
-    document.getElementById('options-container').innerHTML = `
+    optionsContainer.innerHTML = `
       <div style="text-align: center; padding: 20px 10px;">
         <p style="font-size: 1.25rem; color: #caf0f8; margin-bottom: 15px;">
           Terima kasih sudah menyelesaikan kuis rahasia ini dengan penuh senyuman!
@@ -670,141 +640,174 @@ document.addEventListener('DOMContentLoaded', () => {
 
     quizFeedbackBox.hidden = true;
     loveCelebrationContainer.hidden = true;
+    loveCelebrationContainer.style.display = 'none';
+
     quizNextBtn.textContent = 'Ulangi Kuis Dari Awal 🔄';
     quizNextBtn.disabled = false;
-    quizNextBtn.onclick = () => {
+
+    // Redirect kembali ke Soal Pertama (TIDAK reload halaman)
+    quizNextBtn.onclick = function () {
       state.quizIndex = 0;
       state.quizScore = 0;
-      location.reload();
+      quizNextBtn.textContent = 'Pertanyaan Selanjutnya 🌊';
+      quizNextBtn.onclick = null; // Re-use standard event listener
+
+      // Restore option buttons
+      renderOptionButtons();
+
+      // Load Question 1
+      loadQuestion(0);
+
+      // Smoothly scroll back to the quiz section
+      const quizSection = document.getElementById('quiz-section');
+      if (quizSection) {
+        quizSection.scrollIntoView({ behavior: 'smooth' });
+      }
     };
   }
 
-  function quizHeaderHide() {
-    if (quizScoreDisplay) {
-      quizScoreDisplay.textContent = 'Skor Cinta: 100% Sempurna! 💖';
+  // =========================================================================
+  // 8. SAKURA - ROSSA MUSIC PLAYER & DEDICATED CONTROLLER
+  // Only controls the song "Sakura" by Rossa.
+  // Notification SFX (pop, correct chime, wrong buzz, love) are independent!
+  // =========================================================================
+  let ytPlayer = null;
+  let ytReady = false;
+
+  // Asynchronously inject YouTube Iframe API for official Rossa - Sakura stream
+  const ytScript = document.createElement('script');
+  ytScript.src = 'https://www.youtube.com/iframe_api';
+  const firstScript = document.getElementsByTagName('script')[0];
+  if (firstScript && firstScript.parentNode) {
+    firstScript.parentNode.insertBefore(ytScript, firstScript);
+  }
+
+  window.onYouTubeIframeAPIReady = function () {
+    ytPlayer = new YT.Player('yt-player-frame', {
+      height: '1',
+      width: '1',
+      videoId: 'f46pMb8WZFo', // Official: Rossa - Sakura
+      playerVars: {
+        autoplay: 0,
+        controls: 0,
+        loop: 1,
+        playlist: 'f46pMb8WZFo',
+        playsinline: 1
+      },
+      events: {
+        onReady: () => {
+          ytReady = true;
+        },
+        onStateChange: (event) => {
+          if (event.data === YT.PlayerState.PLAYING) {
+            setMusicPlayingState(true);
+          } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+            setMusicPlayingState(false);
+          }
+        }
+      }
+    });
+  };
+
+  function setMusicPlayingState(isPlaying) {
+    state.musicPlaying = isPlaying;
+    if (musicToggleBtn) {
+      if (isPlaying) {
+        musicToggleBtn.classList.add('playing');
+        if (musicStatus) musicStatus.textContent = 'Jeda Musik ⏸';
+      } else {
+        musicToggleBtn.classList.remove('playing');
+        if (musicStatus) musicStatus.textContent = 'Putar Lagu ▶';
+      }
     }
   }
 
+  function toggleSakuraMusic() {
+    ensureAudioContext();
+
+    if (state.musicPlaying) {
+      // Pause music
+      if (sakuraAudio && !sakuraAudio.paused) {
+        sakuraAudio.pause();
+      }
+      if (ytPlayer && ytReady && typeof ytPlayer.pauseVideo === 'function') {
+        try { ytPlayer.pauseVideo(); } catch (_) { }
+      }
+      setMusicPlayingState(false);
+    } else {
+      // Play music: Try local MP3 first, fallback to YouTube official stream
+      if (sakuraAudio) {
+        const playPromise = sakuraAudio.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            setMusicPlayingState(true);
+          }).catch(() => {
+            // Local file not present -> Play via YouTube Player
+            if (ytPlayer && ytReady && typeof ytPlayer.playVideo === 'function') {
+              try {
+                ytPlayer.playVideo();
+                setMusicPlayingState(true);
+              } catch (_) { }
+            }
+          });
+          return;
+        }
+      }
+
+      if (ytPlayer && ytReady && typeof ytPlayer.playVideo === 'function') {
+        try {
+          ytPlayer.playVideo();
+          setMusicPlayingState(true);
+        } catch (_) { }
+      }
+    }
+  }
+
+  if (musicToggleBtn) {
+    musicToggleBtn.addEventListener('click', toggleSakuraMusic);
+  }
+
   // =========================================================================
-  // 8. SOOTHING OCEAN AMBIENT AUDIO SYNTHESIZER (WEB AUDIO API)
-  // No external files needed: pure realistic ocean waves + gentle melody chime!
+  // 9. INDEPENDENT SOUND EFFECTS (ALWAYS ACTIVE)
+  // These sound effects are pure Web Audio synthesis and NEVER affected
+  // by whether the Sakura music button is on or off.
   // =========================================================================
   let audioCtx = null;
-  let waveGain = null;
-  let noiseNode = null;
-  let melodyInterval = null;
 
-  function initAudio() {
-    if (audioCtx) return;
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    audioCtx = new AudioContext();
-
-    // Ocean Wave Noise Generator (Filtered Pinkish Noise)
-    const bufferSize = audioCtx.sampleRate * 3;
-    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-    const data = buffer.getChannelData(0);
-    let lastOut = 0.0;
-    for (let i = 0; i < bufferSize; i++) {
-      const white = Math.random() * 2 - 1;
-      data[i] = (lastOut + (0.02 * white)) / 1.02;
-      lastOut = data[i];
-      data[i] *= 3.5; // boost
+  function ensureAudioContext() {
+    if (!audioCtx) {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new AudioContext();
     }
-
-    noiseNode = audioCtx.createBufferSource();
-    noiseNode.buffer = buffer;
-    noiseNode.loop = true;
-
-    // Filter to simulate muffled underwater waves
-    const filter = audioCtx.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(320, audioCtx.currentTime);
-
-    // Wave swell modulation (LFO)
-    const lfo = audioCtx.createOscillator();
-    lfo.frequency.setValueAtTime(0.12, audioCtx.currentTime); // 8-second wave swells
-    const lfoGain = audioCtx.createGain();
-    lfoGain.gain.setValueAtTime(200, audioCtx.currentTime);
-    lfo.connect(filter.frequency);
-    lfo.start();
-
-    waveGain = audioCtx.createGain();
-    waveGain.gain.setValueAtTime(0.001, audioCtx.currentTime);
-
-    noiseNode.connect(filter);
-    filter.connect(waveGain);
-    waveGain.connect(audioCtx.destination);
-    noiseNode.start();
-  }
-
-  // Soft chimes for ocean atmosphere
-  const CHIME_FREQS = [523.25, 659.25, 783.99, 1046.50, 1174.66, 1318.51]; // C5, E5, G5, C6, D6, E6
-  function playGentleChime() {
-    if (!audioCtx || !state.audioPlaying) return;
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    const freq = CHIME_FREQS[Math.floor(Math.random() * CHIME_FREQS.length)];
-
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-
-    gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.04, audioCtx.currentTime + 0.3);
-    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 3.0);
-
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + 3.2);
-  }
-
-  function toggleAudio() {
-    if (!state.audioPlaying) {
-      initAudio();
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-      waveGain.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + 1.5);
-      state.audioPlaying = true;
-      audioToggleBtn.classList.add('playing');
-      audioText.textContent = 'Matikan Melodi';
-
-      melodyInterval = setInterval(playGentleChime, 3200);
-      playGentleChime();
-    } else {
-      if (waveGain) {
-        waveGain.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
-      }
-      clearInterval(melodyInterval);
-      state.audioPlaying = false;
-      audioToggleBtn.classList.remove('playing');
-      audioText.textContent = 'Nyalakan Melodi';
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
     }
   }
 
-  audioToggleBtn.addEventListener('click', toggleAudio);
-
-  // Micro Sound Effects
+  // Bubble pop SFX
   function playPopSound() {
-    if (!audioCtx || audioCtx.state !== 'running') return;
     try {
+      ensureAudioContext();
+      if (!audioCtx) return;
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(450 + Math.random() * 300, audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.1);
-      gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+      osc.frequency.setValueAtTime(450 + Math.random() * 250, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(850, audioCtx.currentTime + 0.08);
+      gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
       osc.connect(gain);
       gain.connect(audioCtx.destination);
       osc.start();
-      osc.stop(audioCtx.currentTime + 0.12);
-    } catch (_) {}
+      osc.stop(audioCtx.currentTime + 0.09);
+    } catch (_) { }
   }
 
+  // Wave page transition surge SFX
   function playWaveSound() {
-    if (!audioCtx || audioCtx.state !== 'running') return;
     try {
+      ensureAudioContext();
+      if (!audioCtx) return;
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
       osc.type = 'triangle';
@@ -816,47 +819,53 @@ document.addEventListener('DOMContentLoaded', () => {
       gain.connect(audioCtx.destination);
       osc.start();
       osc.stop(audioCtx.currentTime + 0.8);
-    } catch (_) {}
+    } catch (_) { }
   }
 
+  // Quiz correct answer chime SFX (Always active)
   function playCorrectChime() {
-    if (!audioCtx || audioCtx.state !== 'running') return;
     try {
+      ensureAudioContext();
+      if (!audioCtx) return;
       const notes = [523.25, 659.25, 783.99, 1046.50];
       notes.forEach((freq, idx) => {
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.frequency.setValueAtTime(freq, audioCtx.currentTime + idx * 0.1);
         gain.gain.setValueAtTime(0.05, audioCtx.currentTime + idx * 0.1);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + idx * 0.1 + 0.4);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + idx * 0.1 + 0.38);
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         osc.start(audioCtx.currentTime + idx * 0.1);
-        osc.stop(audioCtx.currentTime + idx * 0.1 + 0.45);
+        osc.stop(audioCtx.currentTime + idx * 0.1 + 0.42);
       });
-    } catch (_) {}
+    } catch (_) { }
   }
 
+  // Quiz wrong answer buzz SFX (Always active)
   function playWrongBuzz() {
-    if (!audioCtx || audioCtx.state !== 'running') return;
     try {
+      ensureAudioContext();
+      if (!audioCtx) return;
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
       osc.type = 'sawtooth';
       osc.frequency.setValueAtTime(140, audioCtx.currentTime);
-      osc.frequency.linearRampToValueAtTime(110, audioCtx.currentTime + 0.3);
+      osc.frequency.linearRampToValueAtTime(105, audioCtx.currentTime + 0.28);
       gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.28);
       osc.connect(gain);
       gain.connect(audioCtx.destination);
       osc.start();
-      osc.stop(audioCtx.currentTime + 0.32);
-    } catch (_) {}
+      osc.stop(audioCtx.currentTime + 0.3);
+    } catch (_) { }
   }
 
+  // Love celebration reveal sound SFX (Always active)
   function playLoveSound() {
-    if (!audioCtx || audioCtx.state !== 'running') return;
     try {
+      ensureAudioContext();
+      if (!audioCtx) return;
       const notes = [659.25, 783.99, 987.77, 1318.51];
       notes.forEach((freq, idx) => {
         const osc = audioCtx.createOscillator();
@@ -864,19 +873,25 @@ document.addEventListener('DOMContentLoaded', () => {
         osc.type = 'sine';
         osc.frequency.setValueAtTime(freq, audioCtx.currentTime + idx * 0.12);
         gain.gain.setValueAtTime(0.06, audioCtx.currentTime + idx * 0.12);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + idx * 0.12 + 0.8);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + idx * 0.12 + 0.7);
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         osc.start(audioCtx.currentTime + idx * 0.12);
-        osc.stop(audioCtx.currentTime + idx * 0.12 + 0.85);
+        osc.stop(audioCtx.currentTime + idx * 0.12 + 0.75);
       });
-    } catch (_) {}
+    } catch (_) { }
   }
 
+  // Global user gesture listener to unlock audio on first interaction
+  window.addEventListener('click', () => {
+    ensureAudioContext();
+  }, { once: true });
+
   // =========================================================================
-  // 9. STARTUP SEQUENCE
+  // 10. STARTUP INITIALIZATION
   // =========================================================================
   initRecipientInfo();
   renderGallery();
+  renderOptionButtons();
   loadQuestion(0);
 });
