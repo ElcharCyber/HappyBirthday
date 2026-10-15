@@ -14,8 +14,8 @@ Dibuat menggunakan teknologi web murni: **HTML5**, **CSS3 (Vanilla)**, dan **Jav
    - Tombol utama **"Buka Surat Dari Lautan 🌊"** untuk membuka halaman utama.
    - Bersih dan elegan tanpa tombol edit nama.
 
-2. **Animasi Transisi Sapuan Gelombang Laut (*Ocean Wave Surge Transition*)**:
-   - Saat tombol *"Buka Surat"* diklik, gulungan ombak samudera naik menyapu layar ke kedalaman laut biru, lalu perlahan surut untuk membuka Halaman Utama (*Main Page*).
+2. **Animasi Transisi Sapuan Gelombang Laut (*Ocean Wave Surge Transition*) & Efek Suara Gelembung**:
+   - Saat tombol *"Buka Surat"* atau *"Tutup Surat"* diklik, gulungan ombak samudera naik menyapu layar ke kedalaman laut biru disertai efek suara desiran ombak lautan dan **suara gelembung air alami (*blup-blup-blup*)** yang bergerak harmonis menyesuaikan animasinya.
 
 3. **Halaman Utama (*Main Page*)**:
    - **🌸 Pemutar Musik Lagu "Sakura" (Rossa)**:
@@ -26,16 +26,23 @@ Dibuat menggunakan teknologi web murni: **HTML5**, **CSS3 (Vanilla)**, dan **Jav
    - **📸 Galeri Foto Abstrak (16 Foto Memori)**: 16 foto estetik kenangan tersusun dengan tata letak abstrak bergaya kolase polaroid (kemiringan sudut bergelombang dinamis, stiker selotip transparan, efek 3D tilt saat kursor melintas, serta modal pratinjau saat foto diklik).
    - **🎮 Kuis Kasih Sayang Interaktif**:
      - Menampilkan soal dengan pilihan ganda **A**, **B**, dan **C**.
-     - **Jika Jawaban Salah**:
+     - **Sebelum memilih jawaban**: Tombol *"Lihat Jawaban Benar"* tidak ditampilkan.
+     - **Jika Jawaban Salah (Soal 1, 2, 3)**:
        - Border kartu soal dan tombol pilihan seketika berubah warna menjadi **MERAH** disertai efek getar (*shake*) dan suara notifikasi salah.
-       - **Tombol "Lihat Jawaban Benar"**: **Hanya muncul ketika user memilih jawaban yang salah**.
-     - **Animasi Perayaan Kasih Sayang**: Ketika tombol *"Lihat Jawaban Benar"* diklik, muncul kartu perayaan bertabur partikel hati cinta (💖, 💕, 🌸, 🫧), border berubah menjadi aura merah muda yang hangat, dan jawaban yang benar diungkapkan dengan pesan penuh kasih sayang.
+       - **Tombol "Lihat Jawaban Benar" (Menyerah) langsung muncul**.
      - **Jika Jawaban Benar**:
        - Border kartu soal dan jawaban langsung berubah menjadi **HIJAU** berkilau disertai suara sukacita.
-       - Tombol "Lihat Jawaban Benar" **TIDAK** muncul.
+       - Tombol *"Lihat Jawaban Benar"* **TIDAK** muncul.
+     - **Khusus Soal Nomor 4 (Kejutan Manis / *Trick Question*)**:
+       - Pertanyaan: *"Kalau diurutkan, kira-kira apa tempat paling nyaman yang pernah aku temuin sejauh ini?"*
+       - Ketiga opsi pilihan (A, B, C) semuanya adalah jawaban yang salah.
+       - Salah ke-1: Muncul pesan *"Pilihan kamu salah, coba lagi! 🌊"* (tanpa tombol menyerah).
+       - Salah ke-2: Muncul pesan *"Masih belum tepat nih, jangan menyerah dan coba jawab lagi yaa! 💪✨"* (tanpa tombol menyerah).
+       - Salah ke-3 (semua opsi telah dipilih): Muncul ajakan *"Semua pilihan di atas ternyata salah... Menyerah saja? Klik tombol di bawah ini! 👇🥺"* dan tombol menyerah baru muncul.
+       - Saat tombol menyerah ditekan: Terbuka rahasia manis pilihan **D. Pas lagi duduk berdua sama kamu, mau di mana aja tempatnya 🥰** dengan pesan cinta *"Tempatnya itu nggak penting, yang penting itu sama siapanya."*
      - **Tombol "Ulangi Kuis Dari Awal"**:
        - Saat kuis selesai, tombol ini akan me-redirect pengguna **kembali ke Soal Pertama** (tanpa reload halaman).
-   - **💌 Tombol "Tutup Surat"**: Terletak di bagian paling bawah halaman. Ketika ditekan, animasi sapuan gelombang lautan kembali muncul dan mengantarkan pengguna kembali ke Landing Page.
+   - **💌 Tombol "Tutup Surat"**: Terletak di bagian paling bawah halaman. Ketika ditekan, animasi sapuan gelombang lautan dan suara gelembung kembali muncul mengantarkan pengguna kembali ke Landing Page.
 
 ---
 

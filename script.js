@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     milestoneText: 'Spesial Hari Kelahiran',
     musicPlaying: false,
     quizIndex: 0,
+    q4WrongCount: 0,
     isTransitioning: false,
   };
 
@@ -131,16 +132,16 @@ document.addEventListener('DOMContentLoaded', () => {
       loveNote: 'Karena ribuan panorama alam di bumi pun tak akan ada yang bisa menandingi indahnya senyuman tulusmu. Tetaplah tersenyum manis ya! 💖✨'
     },
     {
-      question: 'Kalau kita terdampar berdua di sebuah pulau kelapa terpencil di tengah lautan, apa yang pertama bakal kita lakuin?',
+      question: 'Kalau disuruh milih satu hal yang paling bikin aku kangen pas lagi gak ketemu kamu, kira-kira apa ya?',
       options: [
-        { key: 'A', text: 'Bikin istana pasir sambil cerita panjang tanpa henti' },
-        { key: 'B', text: 'Panik nyari sinyal HP dan bingung' },
-        { key: 'C', text: 'Berenang nyari ikan hiu buat selfie' }
+        { key: 'A', text: 'Suara ketawa kamu yang renyah dan bikin suasana hidup' },
+        { key: 'B', text: 'Tingkah lucu kamu yang gemesin dan selalu tak terduga' },
+        { key: 'C', text: 'Semua tentang kamu, gak ada yang bisa dipilih satu-satu' }
       ],
-      correctKey: 'A',
-      correctText: 'A. Bikin istana pasir sambil cerita panjang tanpa henti',
-      wrongNote: 'Hayo salah pilih! Coba ingat-ingat momen santai kita...',
-      loveNote: 'Karena bersamamu, tempat terpencil pun berubah menjadi istana terindah di dunia, penuh obrolan hangat dan tawa lepas! 🏝️💕'
+      correctKey: 'C',
+      correctText: 'C. Semua tentang kamu, gak ada yang bisa dipilih satu-satu',
+      wrongNote: 'Hehe tebakannya hampir kena! Tapi jawabannya jauh lebih serakah dari itu...',
+      loveNote: 'Karena setiap detik, setiap canda, dan setiap cerita bersamamu selalu kurindukan. Kamu adalah rumah ternyaman yang selalu ingin kutuju! 🌸🌊💙'
     },
     {
       question: 'Hal apa dari dirimu yang paling bikin orang-orang di sekitarmu selalu merasa nyaman?',
@@ -155,16 +156,17 @@ document.addEventListener('DOMContentLoaded', () => {
       loveNote: 'Kebaikan dan ketulusan hatimu adalah mutiara langka. Jangan pernah lelah menjadi orang baik yang sehangat ini ya! 🌸✨'
     },
     {
-      question: 'Apa harapan terbesar samudera untuk kamu di hari ulang tahun yang sangat spesial ini?',
+      question: 'Kalau diurutkan, kira-kira apa tempat paling nyaman yang pernah aku temuin sejauh ini?',
+      isTrickQuestion: true,
       options: [
-        { key: 'A', text: 'Bisa makan es krim tiap menit tanpa kenyang' },
-        { key: 'B', text: 'Selalu sehat, dilimpahi bahagia, dan tercapai semua impianmu' },
-        { key: 'C', text: 'Bisa terbang ke planet Mars sendirian' }
+        { key: 'A', text: 'Kasur kamar sendiri pas hari libur' },
+        { key: 'B', text: 'Cafe sepi sambil dengerin musik pake headset' },
+        { key: 'C', text: 'Suasana pantai pas sore hari' }
       ],
       correctKey: 'D',
-      correctText: 'B. Selalu sehat, dilimpahi bahagia, dan tercapai semua impianmu',
-      wrongNote: 'Hehe salah tebak! Harapan ini begitu tulus dari lubuk hati...',
-      loveNote: 'Semoga setiap tetes kebaikan yang kamu beri berbalik menjadi berkah berlimpah untuk hidupmu. Selamat ulang tahun sayang! 🎂🌊💙'
+      correctText: 'D. Pas lagi duduk berdua sama kamu, mau di mana aja tempatnya 🥰',
+      wrongNote: 'Pilihan kamu salah, coba lagi! 🌊',
+      loveNote: 'Tempatnya itu nggak penting, yang penting itu sama siapanya. (Bersamamu, tempat mana pun langsung terasa paling nyaman di dunia!) 🌊💙✨'
     }
   ];
 
@@ -317,6 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Sound effect is independent and always plays!
     playWaveSound();
+    playBubbleStreamSound();
 
     if (direction === 'open') {
       playSakuraMusic();
@@ -360,18 +363,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (openLetterBtn) {
     openLetterBtn.addEventListener('click', () => {
+      ensureAudioContext();
       playSakuraMusic();
       triggerOceanTransition('open');
     });
   }
   if (bottleContainer) {
     bottleContainer.addEventListener('click', () => {
+      ensureAudioContext();
       playSakuraMusic();
       triggerOceanTransition('open');
     });
   }
   if (closeLetterBtn) {
     closeLetterBtn.addEventListener('click', () => {
+      ensureAudioContext();
       pauseSakuraMusic();
       triggerOceanTransition('close');
     });
@@ -471,13 +477,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const qData = QUIZ_QUESTIONS[index];
     if (!qData) return;
 
+    // Reset trick question wrong count
+    state.q4WrongCount = 0;
+
+    // Clean up Option D if it was revealed in Question 4
+    const optD = document.getElementById('option-d');
+    if (optD) optD.remove();
+
     // Reset card states
     quizCard.classList.remove('state-wrong', 'state-correct', 'state-love-reveal');
     quizFeedbackBox.hidden = true;
 
-    // Ensure "Lihat Jawaban Benar" is strictly hidden initially
+    // Ensure "Lihat Jawaban Benar" is strictly hidden initially before user answers
     seeCorrectBtn.hidden = true;
     seeCorrectBtn.style.display = 'none';
+    seeCorrectBtn.innerHTML = `
+      <span class="btn-heart">💝</span>
+      <span class="see-btn-text">Lihat Jawaban Benar</span>
+      <span class="btn-sparkle">✨</span>
+    `;
 
     loveCelebrationContainer.hidden = true;
     loveCelebrationContainer.style.display = 'none';
@@ -489,6 +507,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalQuestions = QUIZ_QUESTIONS.length;
     const totalEl = document.querySelector('.counter-total');
     if (totalEl) totalEl.textContent = `/ ${totalQuestions}`;
+
+    // Update button text for last question
+    if (index === QUIZ_QUESTIONS.length - 1) {
+      quizNextBtn.innerHTML = '<span>Selesaikan Kuis 🌊</span>';
+    } else {
+      quizNextBtn.innerHTML = '<span>Pertanyaan Selanjutnya 🌊</span>';
+    }
 
     // Populate option texts
     const textA = document.getElementById('option-text-a');
@@ -511,17 +536,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /**
    * Handle user selection:
-   * - IF WRONG:
-   *    * Mark ONLY the chosen option as wrong (red border, shake animation & disabled).
-   *    * Other options REMAIN ACTIVE so user can immediately re-select until correct!
-   *    * No "pilih ulang" button needed.
-   *    * Sound error dimainkan.
-   * - IF RIGHT:
-   *    * Highlight in green with celebration.
-   *    * Disable all options now that the correct answer is found.
-   *    * Reveal heartfelt love note celebration for this question.
-   *    * Enable "Pertanyaan Selanjutnya 🌊" button.
-   *    * Sound sukacita dimainkan.
+   * - SOAL 1, 2, 3:
+   *   * Jika salah: tombol 'Lihat Jawaban Benar' (menyerah) MUNCUL, kartu merah & bergetar, buzzer bunyi.
+   *   * Jika benar: kartu hijau, tombol 'Lihat Jawaban Benar' TIDAK muncul, tampilkan perayaan cinta, next btn aktif.
+   * - KHUSUS SOAL 4 (TRICK QUESTION):
+   *   * Ketiga pilihan A, B, C adalah jawaban salah!
+   *   * Salah ke-1: teks "Pilihan kamu salah, coba lagi! 🌊", tombol menyerah TIDAK muncul.
+   *   * Salah ke-2: teks "Masih belum tepat nih, jangan menyerah dan coba jawab lagi yaa! 💪✨", tombol menyerah TIDAK muncul.
+   *   * Salah ke-3 (ketiga jawaban salah dipilih): teks "Semua pilihan di atas ternyata salah... Menyerah saja? Klik tombol di bawah ini! 👇🥺", tombol menyerah MUNCUL.
+   *   * Saat tombol menyerah ditekan: Tampilkan Jawaban D yang benar dan kalimat manisnya!
    */
   function handleOptionSelect(chosenKey) {
     const qData = QUIZ_QUESTIONS[state.quizIndex];
@@ -529,6 +552,58 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const chosenBtn = document.getElementById(`option-${chosenKey.toLowerCase()}`);
 
+    // ==========================================
+    // KHUSUS SOAL NOMOR 4 (TRICK QUESTION)
+    // ==========================================
+    if (qData.isTrickQuestion) {
+      state.q4WrongCount = (state.q4WrongCount || 0) + 1;
+
+      quizCard.classList.remove('state-correct', 'state-love-reveal');
+      quizCard.classList.add('state-wrong');
+
+      if (chosenBtn) {
+        chosenBtn.classList.add('selected-wrong');
+        chosenBtn.disabled = true;
+      }
+
+      playWrongBuzz();
+
+      if (state.q4WrongCount === 1) {
+        // Salah pada pilihan pertama
+        feedbackMessage.className = 'feedback-message error';
+        feedbackMessage.innerHTML = '❌ Pilihan kamu salah, coba lagi! 🌊';
+        quizFeedbackBox.hidden = false;
+
+        seeCorrectBtn.hidden = true;
+        seeCorrectBtn.style.display = 'none';
+      } else if (state.q4WrongCount === 2) {
+        // Salah pada pilihan kedua
+        feedbackMessage.className = 'feedback-message error';
+        feedbackMessage.innerHTML = '❌ Masih belum tepat nih, jangan menyerah dan coba jawab lagi yaa! 💪✨';
+        quizFeedbackBox.hidden = false;
+
+        seeCorrectBtn.hidden = true;
+        seeCorrectBtn.style.display = 'none';
+      } else {
+        // Sudah memilih ke-3 jawaban yang salah
+        feedbackMessage.className = 'feedback-message error';
+        feedbackMessage.innerHTML = '❌ Semua pilihan di atas ternyata salah... Menyerah saja? Klik tombol di bawah ini! 👇🥺';
+        quizFeedbackBox.hidden = false;
+
+        seeCorrectBtn.innerHTML = `
+          <span class="btn-heart">🥺</span>
+          <span class="see-btn-text">Menyerah Saja & Buka Jawaban</span>
+          <span class="btn-sparkle">✨</span>
+        `;
+        seeCorrectBtn.hidden = false;
+        seeCorrectBtn.style.display = 'inline-flex';
+      }
+      return;
+    }
+
+    // ==========================================
+    // SOAL STANDAR (SOAL 1, 2, 3)
+    // ==========================================
     if (chosenKey === qData.correctKey) {
       // ================= RIGHT ANSWER =================
       const allButtons = optionsContainer.querySelectorAll('.option-btn');
@@ -546,11 +621,9 @@ document.addEventListener('DOMContentLoaded', () => {
       feedbackMessage.innerHTML = '🎉 Benar sekali! Pilihanmu 100% tepat dari lubuk hati! 💖';
       quizFeedbackBox.hidden = false;
 
-      // Ensure "Lihat Jawaban Benar" button is hidden
-      if (seeCorrectBtn) {
-        seeCorrectBtn.hidden = true;
-        seeCorrectBtn.style.display = 'none';
-      }
+      // Sebelum user memilih atau saat jawaban benar: tombol lihat jawaban tidak ditampilkan
+      seeCorrectBtn.hidden = true;
+      seeCorrectBtn.style.display = 'none';
 
       // Reveal sweet love celebration note
       showLoveCelebration(qData);
@@ -560,46 +633,78 @@ document.addEventListener('DOMContentLoaded', () => {
 
     } else {
       // ================= WRONG ANSWER =================
-      // User can immediately re-select other options!
-      quizCard.classList.remove('state-correct');
+      quizCard.classList.remove('state-correct', 'state-love-reveal');
       quizCard.classList.add('state-wrong');
 
       if (chosenBtn) {
         chosenBtn.classList.add('selected-wrong');
-        chosenBtn.disabled = true; // Prevents clicking the exact same wrong choice again
+        chosenBtn.disabled = true; // Nonaktifkan pilihan salah agar bisa mencoba opsi lain
       }
 
       feedbackMessage.className = 'feedback-message error';
-      feedbackMessage.innerHTML = '❌ ' + (qData.wrongNote || 'Ups, kurang tepat nih! Yuk coba pilih jawaban yang lain... 🌊');
+      feedbackMessage.innerHTML = '❌ ' + (qData.wrongNote || 'Ups, kurang tepat nih! Yuk coba lagi atau menyerah di bawah ini... 🌊');
       quizFeedbackBox.hidden = false;
 
-      // Keep seeCorrectBtn hidden as user can naturally re-select
-      if (seeCorrectBtn) {
-        seeCorrectBtn.hidden = true;
-        seeCorrectBtn.style.display = 'none';
-      }
+      // REQUIREMENT: Tombol lihat jawaban Benar (seperti tombol menyerah) muncul setiap user menekan jawaban yang salah!
+      seeCorrectBtn.innerHTML = `
+        <span class="btn-heart">💝</span>
+        <span class="see-btn-text">Lihat Jawaban Benar</span>
+        <span class="btn-sparkle">✨</span>
+      `;
+      seeCorrectBtn.hidden = false;
+      seeCorrectBtn.style.display = 'inline-flex';
 
       playWrongBuzz();
     }
   }
 
-  // Optional fallback for "Lihat Jawaban Benar" if triggered
+  // When "Lihat Jawaban Benar" (Tombol Menyerah) is clicked
   if (seeCorrectBtn) {
     seeCorrectBtn.addEventListener('click', () => {
       const qData = QUIZ_QUESTIONS[state.quizIndex];
       if (!qData) return;
 
-      const correctBtn = document.getElementById(`option-${qData.correctKey.toLowerCase()}`);
-      if (correctBtn) correctBtn.classList.add('selected-correct');
+      // Disable all option buttons
+      const allButtons = optionsContainer.querySelectorAll('.option-btn');
+      allButtons.forEach(btn => btn.disabled = true);
 
+      if (qData.isTrickQuestion) {
+        // Khusus Soal 4: Tampilkan opsi rahasia D di bawahnya secara manis
+        let optionD = document.getElementById('option-d');
+        if (!optionD) {
+          optionD = document.createElement('button');
+          optionD.className = 'option-btn selected-correct';
+          optionD.id = 'option-d';
+          optionD.type = 'button';
+          optionD.disabled = true;
+          optionD.style.borderColor = 'var(--quiz-green-border)';
+          optionD.style.background = 'rgba(6, 214, 160, 0.22)';
+          optionD.style.boxShadow = '0 0 25px var(--quiz-green-glow)';
+          optionD.innerHTML = `
+            <span class="option-badge" style="background: var(--quiz-green-border); border-color: var(--quiz-green-border); color: white;">D</span>
+            <span class="option-text" id="option-text-d">Pas lagi duduk berdua sama kamu, mau di mana aja tempatnya 🥰</span>
+          `;
+          optionsContainer.appendChild(optionD);
+        }
+      } else {
+        // Soal Standar: Beri warna hijau pada opsi yang benar
+        const correctBtn = document.getElementById(`option-${qData.correctKey.toLowerCase()}`);
+        if (correctBtn) {
+          correctBtn.classList.remove('selected-wrong');
+          correctBtn.classList.add('selected-correct');
+        }
+      }
+
+      // Border kartu berganti menjadi aura pink penuh cinta
       quizCard.classList.remove('state-wrong');
       quizCard.classList.add('state-love-reveal');
 
+      // Sembunyikan tombol menyerah setelah diklik
       seeCorrectBtn.hidden = true;
       seeCorrectBtn.style.display = 'none';
 
       feedbackMessage.className = 'feedback-message success';
-      feedbackMessage.textContent = '✨ Jangan bersedih, inilah jawaban paling berharga buat kamu! ✨';
+      feedbackMessage.innerHTML = '✨ Jangan bersedih, inilah jawaban paling berharga buat kamu! ✨';
 
       showLoveCelebration(qData);
       quizNextBtn.disabled = false;
@@ -608,7 +713,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function showLoveCelebration(qData) {
-    celebrationTitle.textContent = 'Rahasia Terbuka!';
+    celebrationTitle.textContent = qData.isTrickQuestion ? 'Rahasia Terbuka! 💖' : 'Rahasia Terbuka!';
     celebrationAnswerText.innerHTML = `Jawaban Benar adalah: <strong>${escapeHtml(qData.correctText)}</strong>`;
     celebrationSweetNote.textContent = `"${qData.loveNote}"`;
     loveCelebrationContainer.hidden = false;
@@ -670,7 +775,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Redirect kembali ke Soal Pertama (TIDAK reload halaman)
     quizNextBtn.onclick = function () {
       state.quizIndex = 0;
-      quizNextBtn.textContent = 'Pertanyaan Selanjutnya 🌊';
+      state.q4WrongCount = 0;
+      quizNextBtn.innerHTML = '<span>Pertanyaan Selanjutnya 🌊</span>';
       quizNextBtn.onclick = null; // Re-use standard event listener
 
       // Restore option buttons
@@ -849,6 +955,54 @@ document.addEventListener('DOMContentLoaded', () => {
       gain.connect(audioCtx.destination);
       osc.start();
       osc.stop(audioCtx.currentTime + 0.8);
+    } catch (_) { }
+  }
+
+  // Authentic aquatic bubbling sound ("blup-blup-blup")
+  function playBubbleStreamSound() {
+    try {
+      ensureAudioContext();
+      if (!audioCtx) return;
+
+      const bubbleTimeline = [
+        { t: 0.00, f: 420, v: 0.06 },
+        { t: 0.09, f: 560, v: 0.07 },
+        { t: 0.17, f: 480, v: 0.065 },
+        { t: 0.26, f: 630, v: 0.08 },
+        { t: 0.37, f: 520, v: 0.075 },
+        { t: 0.49, f: 720, v: 0.08 },
+        { t: 0.61, f: 490, v: 0.07 },
+        { t: 0.73, f: 650, v: 0.08 },
+        { t: 0.86, f: 770, v: 0.085 },
+        { t: 1.00, f: 590, v: 0.075 },
+        { t: 1.15, f: 740, v: 0.07 },
+        { t: 1.30, f: 520, v: 0.065 },
+        { t: 1.45, f: 440, v: 0.055 }
+      ];
+
+      bubbleTimeline.forEach(b => {
+        const startT = audioCtx.currentTime + b.t;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        const baseF = b.f + (Math.random() - 0.5) * 40;
+        const peakF = baseF * (1.55 + Math.random() * 0.25);
+        const dur = 0.07;
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(baseF, startT);
+        osc.frequency.exponentialRampToValueAtTime(peakF, startT + dur * 0.75);
+
+        gain.gain.setValueAtTime(0.001, startT);
+        gain.gain.linearRampToValueAtTime(b.v, startT + 0.012);
+        gain.gain.exponentialRampToValueAtTime(0.0001, startT + dur);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start(startT);
+        osc.stop(startT + dur + 0.01);
+      });
     } catch (_) { }
   }
 
